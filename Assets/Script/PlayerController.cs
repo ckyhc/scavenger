@@ -6,6 +6,10 @@ public class PlayerController2D : MonoBehaviour
     public float speed = 5f; // The speed at which the player moves
     private Bounds playerBounds;
 
+    public Animator animator;
+
+    public SpriteRenderer spriteRenderer;
+
     // Private variables 
     private Rigidbody2D rb; // Reference to the Rigidbody2D component attached to the player
     private Vector3 movement; // Stores the direction of player movement
@@ -32,8 +36,21 @@ public class PlayerController2D : MonoBehaviour
         // Get player input from keyboard or controller
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
+        
+        animator.SetFloat("Speed", horizontalInput);
 
-        if(horizontalInput > playerBounds.max.x || horizontalInput < playerBounds.min.x){
+        if (horizontalInput < 0)
+        {
+            this.spriteRenderer.flipX = true;
+        }
+        if (horizontalInput > 0)
+        {
+            this.spriteRenderer.flipX = false;
+        }
+
+        Debug.Log("!!!" + horizontalInput);
+
+        if (horizontalInput > playerBounds.max.x || horizontalInput < playerBounds.min.x){
           horizontalInput = 0;
         }
         if(verticalInput > playerBounds.max.y || verticalInput < playerBounds.min.y){
